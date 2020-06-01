@@ -18,7 +18,18 @@ class Image extends upload
   {
     parent::__construct($file, $lang);
   }
-  function yukle($new_name, $max_size, $place, $format, $thumbName=null, $textAdd=null, $permission= array('image/*')){
+  function yukle(
+                 $new_name,
+                 $thumbName   = null,
+                 $watermark   = null,
+                 $textAdd     = null,
+                 $place       = 'upload',
+                 $format      = 'webp',
+                 $max_size    = '20M',
+                 $permission  = array('image/*')
+               ){
+
+
     if($this->uploaded){
       $this->new_name   = $new_name;
       $this->max_size   = $max_size;
@@ -29,9 +40,9 @@ class Image extends upload
       $this->permission = $permission;
       $this->image_resize       = true;
       $this->image_ratio_crop   = true;
-      $this->image_x            = 600;
+      $this->image_x            = 800;
       $this->image_y            = 400;
-      $this->image_watermark = 'yeni_son.png';
+      $this->image_watermark    = $watermark;
       $this->image_watermark_position = 'RT';
 
         if($this->textAdd){
@@ -53,6 +64,9 @@ class Image extends upload
     $this->image_convert = $this->format;
     $this->process($this->place);
 
+  }
+  public function ImageName(){
+    return $this->new_name. '.' .$this->format;
   }
 
   public function thumb($thumb){

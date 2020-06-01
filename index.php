@@ -6,14 +6,12 @@ require_once 'Image.php';
     $foo = new Image($_FILES['image']);
     $foo->yukle(
                    'resim',
-                   '20M',
-                   'upload/',
-                   'jpg',
                    isset($_POST['thumb']) ? $_POST['thumb'] : null,
+                   isset($_POST['watermark']) ? $_POST['watermark'] : null,
                    isset($_POST['title']) ? $_POST['title'] : null
      );
     if($foo->sonuc()){
-      $result = '<img style="height : 400px;" src="upload/'. $foo->file_dst_name .'" class="img-fluid pull-xs-left" alt="...">';
+      $result = '<img src="upload/'. $foo->ImageName() .'" alt="...">';
     }else{
       echo 'Hata Oluştur : '. $foo->error ;
     }
@@ -37,7 +35,6 @@ require_once 'Image.php';
   </head>
   <body>
     <div class="container">
-      <div class="row">
         <div class="col-6">
           <form action="" method="post" enctype="multipart/form-data">
                   <div class="form-group">
@@ -49,6 +46,18 @@ require_once 'Image.php';
                     <input type="file" name="image" class="form-control">
                     <small id="emailHelp" class="form-text text-muted">Resim Ekleyiniz. Formatu (jpeg,jpg,png,webp,vs)</small>
                   </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Logo</label>
+                    </div>
+                    <select name="watermark" class="custom-select" id="inputGroupSelect01">
+                      <option selected>Lütfen Seçiniz</option>
+                      <option value="yeniSondakika.png">yeni Sondakika</option>
+                      <option value="sondakika.png">Son Dakika</option>
+                      <option value="sonDakika.png">son Dakika</option>
+                      <option value="yeni_son.png">yeni_son</option>
+                    </select>
+                  </div>
                   <div class="form-group form-check ml-3">
                     <input  type="checkbox" name="thumb" value="thumb" class="form-check-input">
                     <label class="form-check-label">Küçük Resim Eklensin mi?</label>
@@ -58,7 +67,6 @@ require_once 'Image.php';
         </div>
         <div class="col-6">
           <?php echo isset($result) ? $result : ''; ?>
-        </div>
       </div>
     </div>
 
